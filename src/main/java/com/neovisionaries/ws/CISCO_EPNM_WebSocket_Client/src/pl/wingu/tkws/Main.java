@@ -1,6 +1,7 @@
 package pl.wingu.tkws;
 
 import javax.net.ssl.*;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.NoSuchAlgorithmException;
 
@@ -24,9 +25,15 @@ public class Main {
 
         try {
             WebSocket ws = factory.createSocket("wss" +
-                    "://" + epnmHostname + "//restconf//streams//v1//alarms.xml//");
+                    "://" + epnmHostname + "//restconf//streams//v1//alarm.xml");
+            ws.setUserInfo("root", "Public123#");
             ws.connect();
+
             OutputStream os = ws.getOutput();
+            InputStream is = ws.getInput();
+            while(true){
+                System.out.println(((WebSocketInputStream) is).readFrame());
+            }
 
 
         } catch (Exception e) {
