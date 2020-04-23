@@ -1,6 +1,7 @@
 package pl.wingu.tkws;
 
 import javax.net.ssl.*;
+import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.security.NoSuchAlgorithmException;
 
@@ -28,12 +29,13 @@ public class Main {
             ws.setUserInfo(args[1], args[2]);
             ws.connect();
 
-            OutputStream os = ws.getOutput();
+            //OutputStream os = ws.getOutput();
             WebSocketInputStream is = ws.getInput();
             while(true){
 
-                System.out.println(is.readLine());
-                System.out.println(is.readFrame());
+                FileOutputStream outputStream = new FileOutputStream("EPNMwssAlarmOutput", true);
+                byte[] strToBytes = is.readLine().getBytes();
+                outputStream.write(strToBytes);
             }
 
 
